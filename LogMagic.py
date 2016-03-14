@@ -873,15 +873,15 @@ def create_log_statement(input, alt_identifier, take_inner):
 
     args = []
     identifier = strat.get('identifier_str') or alt_identifier
-    args.append("'%s'" % identifier)
+    args.append("\"%s\"" % identifier)
     args.extend([
         (p['type'] == 'string' or not p['display_key']) \
             and p['name']
-            or "'" + shorten(p['name']).replace("'", "\\'") + ":', " + p['name'] # 'name': name
+            or "\"" + shorten(p['name']).replace("\"", "\"") + ":\", " + p['name'] # 'name': name
         for p in params
     ])
 
-    return "console.log(%s)" % (', '.join(args))
+    return "console.log( %s );" % (', '.join(args))
 
 def is_log_statement(line):
     return True in [line.strip().startswith('console.' + i) for i in LOG_TYPES]
